@@ -1,0 +1,16 @@
+{
+    "main_garage": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        true
+    ],
+    "north_garage": [
+        false,
+        true,
+        true,
+        false
+    ]
+}
