@@ -302,11 +302,11 @@
         properties.north_garage = [];
         for (i = 0; i < semaconnectStatus.length; i++) {
             if (semaconnectStatus[i].name.startsWith("1G1")) {
-                properties.main_garage.push(semaconnectStatus[i].status === "Available");
+                properties.main_garage.push(semaconnectStatus[i].status !== "Available");
             }
 
             if (semaconnectStatus[i].name.startsWith("1G2")) {
-                properties.north_garage.push(semaconnectStatus[i].status === "Available");
+                properties.north_garage.push(semaconnectStatus[i].status !== "Available");
             }
         }
     }
@@ -315,12 +315,12 @@
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                getStatusInfo(this.response.aaData.stations)
+                getStatusInfo(JSON.parse(this.response).aaData.stations)
                 updateCountdown();
                 resetPorts();
             }
         };
-        xmlhttp.open("POST", "https://network.semaconnect.com/get_data.php?nocache="+callCount, true);
+        xmlhttp.open("POST", "https://cors-anywhere.herokuapp.com/"+"https://network.semaconnect.com/get_data.php?nocache="+callCount, true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         ++callCount;
         xmlhttp.send("action=mapLocationDetails&div_id=1661&user_id=30321");
