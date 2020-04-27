@@ -120,10 +120,7 @@
 
     resetPorts();
 
-    setInterval(function(){
-        getSemaconnectInfo();
-    }, 5000);
-
+    startCountdown()
 
     function createCarPort(id, inUse) {
         var display = inUse?"inline":"none";
@@ -286,14 +283,16 @@
         document.getElementById(label).innerHTML = `${free} Available`;
     }
 
-    function updateCountdown() {
-        var countdown = 5;
+    function startCountdown() {
+        var countdown = 20;
         document.getElementById("timestamp").innerHTML = `Refresh in ${countdown} seconds.`;
         var countdownInterval = setInterval(function(){
             --countdown;
             document.getElementById("timestamp").innerHTML = `Refresh in ${countdown} seconds.`;
-            if (countdown < 1)
-                clearInterval(countdownInterval);
+            if (countdown < 1) {
+                getSemaconnectInfo()
+                countdown = 20;
+            }
         },1000);
     }
 
@@ -316,7 +315,6 @@
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 getStatusInfo(JSON.parse(this.response).aaData.stations)
-                updateCountdown();
                 resetPorts();
             }
         };
